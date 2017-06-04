@@ -28,12 +28,12 @@ void loop()
 {
   while(Serial.available() > 0)
   {
+    a = Serial.readString();
+
     //diplink check
     Serial.println("wait for it");
-    z = Serial.readString();
-    z = link.readMessage(z);
-    x = link.getCommandID(z);
-    Serial.println(x);
+    link.sendMessage(link.writeMessage("BOOM", "003"));
+    //Serial.println(x);
 
     //a = Serial.readString();
     //message create/parse check

@@ -1,5 +1,7 @@
 #include "DipLink.h"
 
+#define TIMEOUT 2000
+
 int DipLink::getNumLen(int number)
 {
   int buf = number;
@@ -62,7 +64,7 @@ int DipLink::enableConnection()
       while (Serial.available() <= 0)
       {
         Serial.println(createHeartBeatMessage());
-        delay(2000);
+        delay(TIMEOUT);
       }
 
       String message = Serial.readString();
@@ -72,6 +74,10 @@ int DipLink::enableConnection()
         return 0;// connection enabled
       }
     }
+  }
+  else
+  {
+    return 0;
   }
 
   return 2;//major error
@@ -91,11 +97,13 @@ int DipLink::checkConnection()
       {
           Serial.print(createHeartBeatMessage());
           count++;
+          delay(TIMEOUT);
       }
 
       if(count > 3)
       {
         connectionEnabled = false;
+        Serial.end();
         return 1; //connection break
       }
       else
@@ -111,6 +119,7 @@ int DipLink::checkConnection()
   else
   {
     connectionEnabled = false;
+    Serial.end();
     return 1; //connection break
   }
 
@@ -120,12 +129,7 @@ int DipLink::checkConnection()
 int DipLink::reconnect()
 {
   Serial.end();
-  if (enableConnection() != 0)
-  {
-    return 0;
-  }
-
-  return 2; //major error
+  return enableConnection(); //major error
 }
 
 String DipLink::readMessage(String message)
