@@ -128,10 +128,10 @@ int DipLink::reconnect()
   return 2; //major error
 }
 
-String DipLink::readMessage(String input)
+String DipLink::readMessage(String message)
 {
-  String line = input;
-  String message;
+  String line = message;
+  String resMessage;
   String buf;
 
   line.trim();
@@ -183,7 +183,7 @@ String DipLink::readMessage(String input)
     buf += line[i];
   }
 
-  message = message + buf + '_';
+  resMessage = resMessage + buf + '_';
 
   buf = "";
   line = line.substring(3); //delete msgID info
@@ -194,7 +194,7 @@ String DipLink::readMessage(String input)
     buf += line[i];
   }
 
-  message = message + buf;
+  resMessage = resMessage + buf;
 
   buf = "";
   line = line.substring(msgLen); //delete msg info
@@ -212,21 +212,21 @@ String DipLink::readMessage(String input)
   }
 
   //chek for package integrity
-  if (packageLen != input.length())
+  if (packageLen != message.length())
   {
     return "PACKAGE_BROKEN";
   }
 
-  return message;
+  return resMessage;
 }
 
-String DipLink::writeMessage(String input, String msgID)
+String DipLink::writeMessage(String message, String msgID)
 {
   String package = "55";
 
-  String msgLen = zeroAdd(input);
+  String msgLen = zeroAdd(message);
 
-  package = package + msgLen + msgID + input;
+  package = package + msgLen + msgID + message;
   package += (package.length() + getNumLen(package.length()));
   package.toUpperCase();
 
@@ -252,7 +252,42 @@ String DipLink::getMessage()
 {
   if (connectionEnabled)
   {
-      return Serial.readString();
+    String message = Serial.readString();
+    Serial.println(message);
+    return message;
   }
   return "";
+}
+
+int DipLink::getCommandID(String command)
+{
+  String commandID;
+  int i = 0;
+
+  while(command[i] != '_')
+  {
+    commandID += command[i];
+    i++;
+  }
+
+  if(commandID.toInt() != 0)
+  {
+    return commandID.toInt();
+  }
+  else
+  {
+    return 1;//not numberic value
+  }
+}
+
+String getCommandMsg(String command)
+{
+  String commandName;
+
+  for(unsigned int i = 4; i < command.length(); i++)
+  {
+    commandName += command[i];
+  }
+
+  return commandName;
 }

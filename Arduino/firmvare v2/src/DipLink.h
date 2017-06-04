@@ -13,9 +13,11 @@ class DipLink
     int enableConnection();
     int checkConnection();
     int reconnect();
-    String readMessage(String input);
-    String writeMessage(String input, String msgID);
+    String readMessage(String message);
+    String writeMessage(String message, String msgID);
     String createHeartBeatMessage();
     int sendMessage(String message);
     String getMessage();
+    int getCommandID(String command);
+    String getCommandMsg(String command);
 };

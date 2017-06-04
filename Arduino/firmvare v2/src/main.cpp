@@ -7,6 +7,8 @@ DipLink link;
 
 CommandList commandList;
 
+String z;
+
 void setup()
 {
   pinMode(13, OUTPUT);
@@ -20,15 +22,22 @@ void setup()
 }
 
 String a;
+int x;
 
 void loop()
 {
   while(Serial.available() > 0)
   {
-    a = Serial.readString();
+    Serial.println("wait for it");
+    z = Serial.readString();
+    z = link.readMessage(z);
+    x = link.getCommandID(z);
+    Serial.println(x);
+
+    //a = Serial.readString();
     //message create/parse check
-    String c = link.createHeartBeatMessage();
-    Serial.print(c);
+    //String c = link.createHeartBeatMessage();
+    //Serial.print(c);
 
     //list check
     /*int b = a.toInt();
