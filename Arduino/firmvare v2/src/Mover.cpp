@@ -12,11 +12,15 @@
 Mover::Mover()
 {
   straightValue = 90;
-  wheelPower = 150;
+  wheelPower = 130;
 
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
   pinMode(ENB, OUTPUT);
+
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+  analogWrite(ENB, 0);
 
   TurnServo.attach(SERVOPIN);
   TurnServo.write(straightValue);
@@ -24,6 +28,7 @@ Mover::Mover()
 
 Mover::~Mover()
 {
+  digitalWrite(ENB, 0);
 }
 
 int Mover::execCommand(int commandID, String commandName)
@@ -94,4 +99,46 @@ int Mover::changeStraighValue(String commandName)
 {
     straightValue = getNumValue(commandName);
     return 0;
+}
+
+int Mover::changeWheelPower(String commandName)
+{
+  wheelPower = getNumValue(commandName);
+  return 0;
+}
+
+int Mover::startWheelsByValue(int value)
+{
+  if (value < 0)
+  {
+    digitalWrite(ENB, wheelPower);
+    return 0;
+  }
+}
+
+int Mover::startWheelsByTime(int value)
+{
+  long time;
+  time = millis();
+  digitalWrite(ENB, wheelPower);
+
+  if (value > 2)
+  {
+
+  }
+
+  while (value <= time)
+  {
+    time = millis();
+  }
+
+  digitalWrite(ENB, 0);
+
+  return 0;
+}
+
+int stopWheels()
+{
+  digitalWrite(ENB, 0);
+  return 0;
 }

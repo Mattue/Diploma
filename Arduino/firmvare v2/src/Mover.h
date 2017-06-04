@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <Servo.h>
+#include <DipLink.h>
 
 class Mover
 {
@@ -16,5 +17,8 @@ class Mover
     int turnWheels(int turn);
     int turnWheelsByDegree(int degree);
     int changeStraighValue(String commandName);
-    int startWheels();
+    int changeWheelPower(String commandName);
+    int startWheelsByValue(int value);
+    int startWheelsByTime(int value);
+    int stopWheels();
 };
