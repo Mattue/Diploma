@@ -43,6 +43,70 @@ DipLink::~DipLink()
 {
 }
 
+int DipLink::enableConnection()
+{
+  Serial.begin(9600);
+
+  while (true)
+  {
+    while (Serial.available() <= 0)
+    {
+      Serial.print(createHeartBeatMessage());
+      delay(2000);
+    }
+
+    String message = Serial.readString();
+    if(readMessage(message).equals("000_BEAT"));
+    {
+      return 0;// connection enabled
+    }
+  }
+
+  return 1;//major error
+}
+
+int DipLink::checkConnection()
+{
+  int count;
+
+  while(true)
+  {
+    count = 0;
+
+    while (Serial.available() <= 0 and count <= 3)
+    {
+        Serial.print(createHeartBeatMessage());
+        count++;
+    }
+
+    if(count > 3)
+    {
+      return 1; //connection break
+    }
+    else
+    {
+      String message = Serial.readString();
+      if(readMessage(message).equals("000_BEAT"))
+      {
+        return 0; //connection OK
+      }
+    }
+  }
+
+  return 1; //major error
+}
+
+int DipLink::reconnect()
+{
+  Serial.end();
+  if (enableConnection() != 0)
+  {
+    return 0;
+  }
+
+  return 1; //major error
+}
+
 String DipLink::readMessage(String input)
 {
   String line = input;
@@ -156,3 +220,11 @@ String DipLink::createHeartBeatMessage()
 
   return package;
 }
+
+String DipLink::sendMessage(String input)
+{
+
+}
+
+
+//String getMessage();

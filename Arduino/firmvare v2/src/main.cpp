@@ -9,7 +9,14 @@ CommandList commandList;
 
 void setup()
 {
-  Serial.begin(9600);
+  pinMode(13, OUTPUT);
+  digitalWrite(13, LOW);
+
+  //Serial.begin(9600);
+  if(link.enableConnection() != 0)
+  {
+    digitalWrite(13, HIGH);
+  }
 }
 
 String a;
