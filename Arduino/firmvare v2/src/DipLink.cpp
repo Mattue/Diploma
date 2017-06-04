@@ -264,6 +264,11 @@ int DipLink::getCommandID(String command)
   String commandID;
   int i = 0;
 
+  while ((command[i] == 0) and i < 3)
+  {
+    i++;
+  }
+
   while(command[i] != '_')
   {
     commandID += command[i];

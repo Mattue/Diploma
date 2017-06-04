@@ -5,7 +5,7 @@ class CommandList
 private:
   struct listElem
   {
-      String commandID;
+      int commandID;
       String commandName;
       listElem* prev;
       listElem* next;
@@ -14,7 +14,7 @@ private:
   listElem* tail;
   int size;
 
-  String parseCommandID(String command);
+  int parseCommandID(String command);
   String parseCommandName(String command);
   void createList(String command);
 
@@ -25,7 +25,7 @@ public:
   int addLast(String command);
   int removeFirst();
   int removeLast();
-  String getCommandID();
+  int getCommandID();
   String getCommandName();
   int getSize();
 };

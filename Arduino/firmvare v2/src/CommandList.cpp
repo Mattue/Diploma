@@ -1,17 +1,22 @@
 #include "CommandList.h"
 
-String CommandList::parseCommandID(String command)
+int CommandList::parseCommandID(String command)
 {
   String commandID;
   int i = 0;
 
-  while(command[i] != '_')
+  while ((command[i] == 0) and i < 3)
+  {
+    i++;
+  }
+
+  while (command[i] != '_')
   {
     commandID += command[i];
     i++;
   }
 
-  return commandID;
+  return commandID.toInt();
 }
 
 String CommandList::parseCommandName(String command)
@@ -153,32 +158,20 @@ int CommandList::removeLast()
   return 1;
 }
 
-String CommandList::getCommandID()
+int CommandList::getCommandID()
 {
   if (size != 0)
   {
-    String commandID;
-
-    commandID = head->commandID;
-
-    removeFirst();
-
-    return commandID;
+    return head->commandID;
   }
-  return "";
+  return 1;
 }
 
 String CommandList::getCommandName()
 {
   if (size != 0)
   {
-    String commandName;
-
-    commandName = head->commandName;
-
-    removeFirst();
-
-    return commandName;
+    return head->commandName;
   }
   return "";
 }
