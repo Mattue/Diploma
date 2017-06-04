@@ -53,21 +53,12 @@ CommandList::CommandList()
 
 CommandList::~CommandList()
 {
-  if (size <= 1)
-  {
-    delete head;
-    delete tail;
-    size = 0;
-    return;
-  }
-
   while (size != 0)
   {
-      tail = tail->prev;
-      delete tail->next;
-      size--;
+    removeLast();
   }
 
+  delete tail;
   delete head;
 }
 
@@ -135,7 +126,7 @@ int CommandList::removeFirst()
     }
     return 0;
   }
-  return 1;
+  return 0;
 }
 
 int CommandList::removeLast()
@@ -156,7 +147,7 @@ int CommandList::removeLast()
     }
     return 0;
   }
-  return 1;
+  return 0;
 }
 
 int CommandList::getCommandID()
@@ -165,7 +156,7 @@ int CommandList::getCommandID()
   {
     return head->commandID;
   }
-  return 1;
+  return 0;
 }
 
 String CommandList::getCommandName()
@@ -184,20 +175,9 @@ int CommandList::getSize()
 
 int CommandList::clearList()
 {
-  if (size == 0)
+  while (size != 0)
   {
-    return 0;
+    removeLast();
   }
-
-  while (size != 1)
-  {
-      tail = tail->prev;
-      tail->next = 0;
-      size--;
-  }
-
-  tail = 0;
-  head = 0;
-
   return 0;
 }
