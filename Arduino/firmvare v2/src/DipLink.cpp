@@ -243,9 +243,16 @@ int DipLink::sendMessage(String message)
   if(connectionEnabled)
   {
     Serial.println(message);
+    return 0;
   }
   return 1;//no connection
 }
 
-
-//String getMessage();
+String DipLink::getMessage()
+{
+  if (connectionEnabled)
+  {
+      return Serial.readString();
+  }
+  return "";
+}
