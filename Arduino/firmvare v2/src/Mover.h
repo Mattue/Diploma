@@ -19,6 +19,6 @@ class Mover
     int changeStraighValue(String commandName);
     int changeWheelPower(String commandName);
     int startWheelsByValue(int value);
-    int startWheelsByTime(int value);
+    int startWheelsByTime(String commandName);
     int stopWheels();
 };

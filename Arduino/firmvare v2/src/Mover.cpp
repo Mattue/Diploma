@@ -5,6 +5,7 @@
 #define ENB 3
 #define SERVOPIN 9
 #define TURN 20
+#define INF -1
 #define LEFT -1
 #define STRAIGHT 0
 #define RIGHT 1
@@ -43,6 +44,12 @@ int Mover::execCommand(int commandID, String commandName)
       return turnWheels(RIGHT);
     case 114:
       return changeStraighValue(commandName);
+    case 115:
+      return changeWheelPower(commandName);
+    case 116:
+      return startWheelsByValue(INF);
+    case 117:
+      return startWheelsByTime(commandName);
     default:
       return 1;
   }
@@ -116,24 +123,19 @@ int Mover::startWheelsByValue(int value)
   }
 }
 
-int Mover::startWheelsByTime(int value)
+int Mover::startWheelsByTime(String commandName)
 {
+  int timeToMove = getNumValue(commandName);
   long time;
   time = millis();
-  digitalWrite(ENB, wheelPower);
 
-  if (value > 2)
-  {
+  startWheelsByValue(INF);
 
-  }
-
-  while (value <= time)
+  while(timeToMove*1000 <= time)
   {
     time = millis();
   }
-
-  digitalWrite(ENB, 0);
-
+  stopWheels();
   return 0;
 }
 
