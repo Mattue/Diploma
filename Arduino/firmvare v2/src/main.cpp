@@ -3,6 +3,7 @@
 #include <DipLink.h>
 #include <CommandList.h>
 #include <Mover.h>
+#include <MemoryFree.h>
 
 DipLink link;
 
@@ -58,6 +59,67 @@ void setup()
   //move.execCommand(18, "STOP");
   //delay(2000);
 
+  //Serial.begin(9600);
+  //Serial.println(link.readMessage("55004132HELL14"));
+  //delay(1000);
+  //Serial.println(link.writeMessage("LOL", "321"));
+  //delay(1000);
+  //Serial.println(link.createHeartBeatMessage());
+
+  Serial.begin(9600);
+  Serial.println(freeMemory());
+  Serial.print(commandList.addFirst("123_LOL_LOLLLLLLLLLLLLLLLLLLL"));
+  Serial.println(commandList.getSize());
+  Serial.println(freeMemory());
+  Serial.println("END");
+
+  Serial.println(freeMemory());
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.print(commandList.addFirst("123_LOL"));
+  Serial.println(commandList.addFirst("123_LOL"));
+  Serial.println("SIZE");
+  Serial.println(commandList.getSize());
+  Serial.println("CLEAR");
+  Serial.println(commandList.clearList());
+  Serial.println("SIZE");
+  Serial.println(commandList.getSize());
+  Serial.print(commandList.addLast("123_LOL"));
+  Serial.print(commandList.addLast("123_LOL"));
+  Serial.print(commandList.addLast("123_LOL"));
+  Serial.print(commandList.addLast("123_LOL"));
+  Serial.print(commandList.addLast("123_LOL"));
+  Serial.print(commandList.addLast("123_LOL"));
+  Serial.print(commandList.addLast("123_LOL"));
+  Serial.print(commandList.addLast("123_LOL"));
+  Serial.print(commandList.addLast("123_LOL"));
+  Serial.print(commandList.addLast("123_LOL"));
+  Serial.println(commandList.addFirst("123_LOL"));
+  Serial.println("SIZE");
+  Serial.println(commandList.getSize());
+  Serial.println("REMOVE");
+  Serial.print(commandList.removeLast());
+  Serial.print(commandList.removeLast());
+  Serial.println(commandList.removeLast());
+  Serial.println("SIZE");
+  Serial.println(commandList.getSize());
+  Serial.println(freeMemory());
+  Serial.println("END");
 
   //move.deleteMe();
 }

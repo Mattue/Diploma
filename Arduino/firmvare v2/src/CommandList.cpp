@@ -70,8 +70,7 @@ int CommandList::addFirst(String command)
     return 0;
   }
 
-  listElem* add;
-  add = new listElem;
+  listElem* add = new listElem;
   add->commandID = parseCommandID(command);
   add->commandName = parseCommandName(command);
   add->prev = 0;
@@ -93,8 +92,7 @@ int CommandList::addLast(String command)
       return 0;
     }
 
-    listElem* add;
-    add = new listElem;
+    listElem* add = new listElem;;
     add->commandID = parseCommandID(command);
     add->commandName = parseCommandName(command);
     add->prev = tail;
