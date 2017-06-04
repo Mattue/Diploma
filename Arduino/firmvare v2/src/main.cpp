@@ -1,11 +1,15 @@
 #include "Arduino.h"
-#include <Servo.h>
+//#include <Servo.h>
 #include <DipLink.h>
 #include <CommandList.h>
+#include <Mover.h>
 
 DipLink link;
 
 CommandList commandList;
+
+Mover move;
+//Servo myServo;
 
 String z;
 
@@ -14,11 +18,47 @@ void setup()
   pinMode(13, OUTPUT);
   digitalWrite(13, LOW);
 
+  move.initServo();
+
+  //myServo.attach(9);
+  //myServo.write(90);
+
   //Serial.begin(9600);
-  if(link.enableConnection() != 0)
-  {
-    digitalWrite(13, HIGH);
-  }
+  //if(link.enableConnection() != 0)
+  //{
+  //  digitalWrite(13, HIGH);
+  //}
+
+  //move.execCommand(12, "TURN_LEFT");
+  //delay(2000);
+  //move.execCommand(13, "TURN_RIGHT");
+  //delay(2000);
+  //move.execCommand(11, "STRAIGHT");
+  //delay(2000);
+  //move.execCommand(14, "NEW_STRAIGHT_80");
+  //delay(2000);
+  //move.execCommand(12, "STRAIGHT");
+  //delay(2000);
+  //move.execCommand(16, "MOVE");
+  //delay(2000);
+  //move.execCommand(18, "STOP");
+  //delay(2000);
+  //move.execCommand(15, "NEW_POWER_255");
+  //delay(2000);
+  //move.execCommand(16, "MOVE");
+  //delay(2000);
+  //move.execCommand(18, "STOP");
+  //delay(2000);
+  //move.execCommand(17, "MOVE_SEC_2");
+  //delay(5000);
+  //move.execCommand(19, "CHANGE_DIR");
+  //delay(2000);
+  //move.execCommand(16, "MOVE");
+  //delay(2000);
+  //move.execCommand(18, "STOP");
+  //delay(2000);
+
+  //move.deleteMe();
 }
 
 String a;

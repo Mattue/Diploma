@@ -13,7 +13,7 @@
 Mover::Mover()
 {
   straightValue = 90;
-  wheelPower = 130;
+  wheelPower = 50;
 
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
@@ -23,8 +23,8 @@ Mover::Mover()
   digitalWrite(IN4, HIGH);
   analogWrite(ENB, 0);
 
-  TurnServo.attach(SERVOPIN);
-  TurnServo.write(straightValue);
+  //turnServo.attach(turnPin, 70, 110);
+  //turnServo.write(straightValue);
 }
 
 Mover::~Mover()
@@ -32,27 +32,35 @@ Mover::~Mover()
   digitalWrite(ENB, 0);
 }
 
+int Mover::initServo()
+{
+  turnServo.attach(SERVOPIN);
+  turnServo.write(straightValue);
+
+  return 0;
+}
+
 int Mover::execCommand(int commandID, String commandName)
 {
   switch(commandID)
   {
-    case 111:
+    case 11:
       return turnWheels(STRAIGHT);
-    case 112:
+    case 12:
       return turnWheels(LEFT);
-    case 113:
+    case 13:
       return turnWheels(RIGHT);
-    case 114:
+    case 14:
       return changeStraighValue(commandName);
-    case 115:
+    case 15:
       return changeWheelPower(commandName);
-    case 116:
+    case 16:
       return startWheelsByValue(INF);
-    case 117:
+    case 17:
       return startWheelsByTime(commandName);
-    case 118:
+    case 18:
       return stopWheels();
-    case 119:
+    case 19:
       return changeDirection();
     default:
       return 1;
@@ -64,18 +72,20 @@ int Mover::getNumValue(String commandName)
   String commandValue;
   int i = commandName.length();
 
-  while (commandValue[i] != '_')
+  while (commandName[i] != '_')
   {
     commandValue += commandName[i];
     i--;
   }
+
+  commandValue.trim();
 
   if(commandValue.length() <= 1)
   return commandValue.toInt();
 
   String revValue;
 
-  for(int i = commandValue.length(); i != 0; i--)
+  for(int i = commandValue.length() - 1; i >= 0; i--)
   {
     revValue += commandValue[i];
   }
@@ -87,13 +97,13 @@ int Mover::turnWheels(int turn)
   switch (turn)
   {
     case -1:
-      TurnServo.write(straightValue - TURN);
+      turnServo.write(straightValue - TURN);
       return 0;
     case 0:
-      TurnServo.write(straightValue);
+      turnServo.write(straightValue);
       return 0;
     case 1:
-      TurnServo.write(straightValue + TURN);
+      turnServo.write(straightValue + TURN);
       return 0;
     default:
       return 1;
@@ -102,7 +112,7 @@ int Mover::turnWheels(int turn)
 
 int Mover::turnWheelsByDegree(int degree)
 {
-  TurnServo.write(straightValue + degree);
+  turnServo.write(straightValue + degree);
   return 0;
 }
 
@@ -122,34 +132,29 @@ int Mover::startWheelsByValue(int value)
 {
   if (value < 0)
   {
-    digitalWrite(ENB, wheelPower);
+    analogWrite(ENB, wheelPower);
     return 0;
   }
 }
 
 int Mover::startWheelsByTime(String commandName)
 {
-  int timeToMove = getNumValue(commandName);
-  long time;
-  time = millis();
+  int timeToMove = getNumValue(commandName)*1000;
 
   startWheelsByValue(INF);
-
-  while(timeToMove*1000 <= time)
-  {
-    time = millis();
-  }
+  delay(timeToMove);
   stopWheels();
+  
   return 0;
 }
 
-int stopWheels()
+int Mover::stopWheels()
 {
   digitalWrite(ENB, 0);
   return 0;
 }
 
-int changeDirection()
+int Mover::changeDirection()
 {
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);

@@ -1,19 +1,19 @@
 #include <Arduino.h>
 #include <Servo.h>
-#include <DipLink.h>
 
 class Mover
 {
   private:
-    Mover();
-    ~Mover();
-    Servo TurnServo;
+    Servo turnServo;
     int straightValue;
     int wheelPower;
-    int execCommand(int commandID, String commandName);
     int getNumValue(String a);
 
   public:
+    Mover();
+    ~Mover();
+    int initServo();
+    int execCommand(int commandID, String commandName);
     int turnWheels(int turn);
     int turnWheelsByDegree(int degree);
     int changeStraighValue(String commandName);
