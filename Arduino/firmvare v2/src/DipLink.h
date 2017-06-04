@@ -3,6 +3,7 @@
 class DipLink
 {
   private:
+    bool connectionEnabled;
     int getNumLen(int number);
     String zeroAdd(String number);
 
@@ -15,6 +16,6 @@ class DipLink
     String readMessage(String input);
     String writeMessage(String input, String msgID);
     String createHeartBeatMessage();
-    String sendMessage(String input);
+    int sendMessage(String message);
     String getMessage();
 };

@@ -37,63 +37,84 @@ String DipLink::zeroAdd(String number)
 
 DipLink::DipLink()
 {
+  connectionEnabled = false;
 }
 
 DipLink::~DipLink()
 {
+  if(connectionEnabled)
+  {
+    String message = "55013001ENDCONNECTION";
+    message += message.length();
+    Serial.print(message);
+    Serial.end();
+  }
 }
 
 int DipLink::enableConnection()
 {
-  Serial.begin(9600);
-
-  while (true)
+  if(!connectionEnabled)
   {
-    while (Serial.available() <= 0)
+    Serial.begin(9600);
+
+    while (true)
     {
-      Serial.print(createHeartBeatMessage());
-      delay(2000);
-    }
+      while (Serial.available() <= 0)
+      {
+        Serial.println(createHeartBeatMessage());
+        delay(2000);
+      }
 
-    String message = Serial.readString();
-    if(readMessage(message).equals("000_BEAT"));
-    {
-      return 0;// connection enabled
-    }
-  }
-
-  return 1;//major error
-}
-
-int DipLink::checkConnection()
-{
-  int count;
-
-  while(true)
-  {
-    count = 0;
-
-    while (Serial.available() <= 0 and count <= 3)
-    {
-        Serial.print(createHeartBeatMessage());
-        count++;
-    }
-
-    if(count > 3)
-    {
-      return 1; //connection break
-    }
-    else
-    {
       String message = Serial.readString();
       if(readMessage(message).equals("000_BEAT"))
       {
-        return 0; //connection OK
+        connectionEnabled = true;
+        return 0;// connection enabled
       }
     }
   }
 
-  return 1; //major error
+  return 2;//major error
+}
+
+int DipLink::checkConnection()
+{
+  if (connectionEnabled)
+  {
+    int count;
+
+    while(true)
+    {
+      count = 0;
+
+      while (Serial.available() <= 0 and count <= 3)
+      {
+          Serial.print(createHeartBeatMessage());
+          count++;
+      }
+
+      if(count > 3)
+      {
+        connectionEnabled = false;
+        return 1; //connection break
+      }
+      else
+      {
+        String message = Serial.readString();
+        if(readMessage(message).equals("000_BEAT"))
+        {
+          return 0; //connection OK
+        }
+      }
+    }
+  }
+  else
+  {
+    connectionEnabled = false;
+    return 1; //connection break
+  }
+
+  return 2; //major error
 }
 
 int DipLink::reconnect()
@@ -104,7 +125,7 @@ int DipLink::reconnect()
     return 0;
   }
 
-  return 1; //major error
+  return 2; //major error
 }
 
 String DipLink::readMessage(String input)
@@ -214,16 +235,16 @@ String DipLink::writeMessage(String input, String msgID)
 
 String DipLink::createHeartBeatMessage()
 {
-  String package = "55004000BEAT";
-
-  package += package.length();
-
-  return package;
+  return writeMessage("BEAT", "000");
 }
 
-String DipLink::sendMessage(String input)
+int DipLink::sendMessage(String message)
 {
-
+  if(connectionEnabled)
+  {
+    Serial.println(message);
+  }
+  return 1;//no connection
 }
 
 
