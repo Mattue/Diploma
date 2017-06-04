@@ -50,6 +50,10 @@ int Mover::execCommand(int commandID, String commandName)
       return startWheelsByValue(INF);
     case 117:
       return startWheelsByTime(commandName);
+    case 118:
+      return stopWheels();
+    case 119:
+      return changeDirection();
     default:
       return 1;
   }
@@ -142,5 +146,13 @@ int Mover::startWheelsByTime(String commandName)
 int stopWheels()
 {
   digitalWrite(ENB, 0);
+  return 0;
+}
+
+int changeDirection()
+{
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+
   return 0;
 }

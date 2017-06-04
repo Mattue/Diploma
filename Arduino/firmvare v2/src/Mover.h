@@ -21,4 +21,5 @@ class Mover
     int startWheelsByValue(int value);
     int startWheelsByTime(String commandName);
     int stopWheels();
+    int changeDirection();
 };
