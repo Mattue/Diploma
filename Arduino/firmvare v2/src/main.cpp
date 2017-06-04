@@ -13,15 +13,18 @@ void setup()
 }
 
 String a;
-int b = 0;
 
 void loop()
 {
   while(Serial.available() > 0)
   {
     a = Serial.readString();
+    //message create/parse check
+    String c = link.createHeartBeatMessage();
+    Serial.print(c);
+
     //list check
-    /*b = a.toInt();
+    /*int b = a.toInt();
     switch (b)
     {
       case 1:
