@@ -58,6 +58,11 @@ void setup()
   //move.execCommand(18, "STOP");
   //delay(2000);
 
+  Serial.begin(9600);
+
+  Serial.println("HELLO!");
+  Serial.println(link.getCommandID("123_LOL"));
+
   //move.deleteMe();
 }
 

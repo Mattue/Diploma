@@ -268,6 +268,7 @@ int DipLink::getCommandID(String command)
   String commandID;
   int i = 0;
 
+  //removing all 0 from begin
   while ((command[i] == 0) and i < 3)
   {
     i++;
