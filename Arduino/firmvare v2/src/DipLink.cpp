@@ -281,11 +281,18 @@ int DipLink::getCommandID(String command)
   }
   else
   {
-    return 1;//not numberic value
+    if (getCommandMsg(command) == "BEAT")
+    {
+      return 0;
+    }
+    else
+    {
+      return 1;//not numberic value
+    }
   }
 }
 
-String getCommandMsg(String command)
+String DipLink::getCommandMsg(String command)
 {
   String commandName;
 

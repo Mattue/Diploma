@@ -28,6 +28,7 @@ void loop()
 {
   while(Serial.available() > 0)
   {
+    //diplink check
     Serial.println("wait for it");
     z = Serial.readString();
     z = link.readMessage(z);
