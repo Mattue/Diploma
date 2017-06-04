@@ -28,4 +28,5 @@ public:
   int getCommandID();
   String getCommandName();
   int getSize();
+  int clearList();
 };

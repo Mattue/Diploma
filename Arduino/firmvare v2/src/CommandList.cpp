@@ -180,3 +180,23 @@ int CommandList::getSize()
 {
   return size;
 }
+
+int CommandList::clearList()
+{
+  if (size == 0)
+  {
+    return 0;
+  }
+
+  while (size != 1)
+  {
+      tail = tail->prev;
+      tail->next = 0;
+      size--;
+  }
+
+  tail = 0;
+  head = 0;
+
+  return 0;
+}
