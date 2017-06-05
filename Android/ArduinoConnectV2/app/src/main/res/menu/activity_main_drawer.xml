@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_servo_set"
+            android:icon="@drawable/ic_menu_servo_set"
+            android:title="Настройка" />
+        <item
+            android:id="@+id/nav_manual_control"
+            android:icon="@drawable/ic_menu_manual_control"
+            android:title="Ручное управление" />
+        <item
+            android:id="@+id/nav_command_list"
+            android:icon="@drawable/ic_menu_command_list"
+            android:title="Список команд" />
+    </group>
+
+</menu>
