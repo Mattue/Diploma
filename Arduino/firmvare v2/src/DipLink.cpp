@@ -257,7 +257,7 @@ String DipLink::getMessage()
   if (connectionEnabled)
   {
     String message = Serial.readString();
-    Serial.println(message);
+    //Serial.println(message);
     return message;
   }
   return "";

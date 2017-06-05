@@ -202,12 +202,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void onClickTest(View v)
+    public void onClickTest(View v)
     {
         sendData(link.writeMessage("012", "WHEELS_LEFT"));
     }
 
-    private void onClickESSSSS
+    public void onClickExec(View v)
+    {
+        sendData(link.writeMessage("011", "WHEELS_STRAIGHT"));
+    }
 
     @Override
     public void onBackPressed() {

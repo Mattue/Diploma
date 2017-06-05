@@ -5,6 +5,8 @@
 #include <Mover.h>
 #include <MemoryFree.h>
 
+//int chooser();
+
 DipLink link;
 
 CommandList commandList;
@@ -13,6 +15,32 @@ Mover move;
 //Servo myServo;
 
 String z;
+
+int chooser(int cmdID, String cmdName)
+{
+  if (cmdID < 11)
+  {
+    //команды для DipLink и CommandList
+    switch (cmdID)
+    {
+      case 0:
+        break;
+      default:
+        break;
+    }
+  }
+  else if (cmdID < 31)
+  {
+    //команды для движков
+    move.execCommand(cmdID, cmdName);
+  }
+  else if (cmdID < 61)
+  {
+    //команды для списка
+  }
+
+  return 0;
+}
 
 void setup()
 {
@@ -133,7 +161,8 @@ void loop()
 {
   if (Serial.available() > 0)
   {
-    a = Serial.readString();
+    a = link.getMessage();
+    chooser(link.getCommandID(link.readMessage(a)), link.getCommandMsg(link.readMessage(a)));
   }
   /*
   while(Serial.available() > 0)
