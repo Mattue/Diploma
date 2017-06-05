@@ -21,6 +21,8 @@ void setup()
 
   move.initServo();
 
+  link.enableConnection();
+
   //myServo.attach(9);
   //myServo.write(90);
 
@@ -66,8 +68,8 @@ void setup()
   //delay(1000);
   //Serial.println(link.createHeartBeatMessage());
 
-  Serial.begin(9600);
-  Serial.println(freeMemory());
+  //Serial.begin(9600);
+  /*Serial.println(freeMemory());
   Serial.print(commandList.addFirst("123_LOL_LOLLLLLLLLLLLLLLLLLLL"));
   Serial.println(commandList.getSize());
   Serial.println(freeMemory());
@@ -119,7 +121,7 @@ void setup()
   Serial.println("SIZE");
   Serial.println(commandList.getSize());
   Serial.println(freeMemory());
-  Serial.println("END");
+  Serial.println("END");*/
 
   //move.deleteMe();
 }
@@ -129,6 +131,11 @@ int x;
 
 void loop()
 {
+  if (Serial.available() > 0)
+  {
+    a = Serial.readString();
+  }
+  /*
   while(Serial.available() > 0)
   {
     a = Serial.readString();
@@ -161,6 +168,6 @@ void loop()
         break;
       default:
         break;
-    }*/
-  }
+    }
+  }*/
 }

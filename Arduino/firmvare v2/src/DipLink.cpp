@@ -57,7 +57,7 @@ int DipLink::enableConnection()
 {
   if(!connectionEnabled)
   {
-    Serial.begin(9600);
+    Serial.begin(57600);
 
     while (true)
     {
