@@ -230,6 +230,8 @@ public class MainActivity extends AppCompatActivity
 
         messageFromSerial = event.message;
         messageFromSerial = messageFromSerial.substring(0, messageFromSerial.length() - 1);
+        messageFromSerial = messageFromSerial.trim();
+        //EventBus.getDefault().post(new MessageEventFromMain(messageFromSerial));
         messageFromSerial = link.readMessage(messageFromSerial);
         EventBus.getDefault().post(new MessageEventFromMain(messageFromSerial));
         /*if(link.getCommandID(messageFromSerial) < 11)

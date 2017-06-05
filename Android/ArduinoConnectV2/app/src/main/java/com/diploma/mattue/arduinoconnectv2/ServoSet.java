@@ -37,7 +37,7 @@ public class ServoSet extends AppCompatActivity
 
         tvServoValue.append(messageFromMain);
 
-        sendMessage("020", "GIVE_SERVO_VALUE");
+        //sendMessage("020", "GIVE_SERVO_VALUE");
     }
 
     private void sendMessage(String messageID, String messageName)
@@ -76,10 +76,7 @@ public class ServoSet extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEventFromMain event)
     {
-        //code to do when get message from main
         messageFromMain = event.message;
-        tvServoValue.append("_GOT_MESSAGE_");
-        tvServoValue.append(messageFromMain);
-        //tvServoValue.append("" + getServoNumValue(messageFromMain));
+        tvServoValue.setText("" + getServoNumValue(messageFromMain));
     };
 }
