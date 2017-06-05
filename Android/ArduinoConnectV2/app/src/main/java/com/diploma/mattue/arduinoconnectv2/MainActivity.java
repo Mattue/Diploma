@@ -1,5 +1,6 @@
 package com.diploma.mattue.arduinoconnectv2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -82,7 +83,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_servo_set)
         {
-
+            Intent intent =  new Intent(MainActivity.this, ServoSet.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_manual_control)
         {
