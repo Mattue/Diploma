@@ -5,4 +5,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="title_activity_manual_control">ManualControl</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_servo_set">ServoSet</string>
+    <string name="title_activity_command_list">CommandList</string>
 </resources>

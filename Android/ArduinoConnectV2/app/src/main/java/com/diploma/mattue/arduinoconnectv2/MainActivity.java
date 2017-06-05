@@ -88,11 +88,13 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_manual_control)
         {
-
+            Intent intent =  new Intent(MainActivity.this, ManualControl.class);
+            startActivity(intent);
         }
-        else if (id == R.id.nav_manual_control)
+        else if (id == R.id.nav_command_list)
         {
-
+            Intent intent =  new Intent(MainActivity.this, CommandList.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
