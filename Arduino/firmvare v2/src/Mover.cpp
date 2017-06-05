@@ -62,6 +62,8 @@ int Mover::execCommand(int commandID, String commandName)
       return stopWheels();
     case 19:
       return changeDirection();
+    case 20:
+      return getStraigthValue();
     default:
       return 1;
   }
@@ -144,7 +146,7 @@ int Mover::startWheelsByTime(String commandName)
   startWheelsByValue(INF);
   delay(timeToMove);
   stopWheels();
-  
+
   return 0;
 }
 
@@ -160,4 +162,9 @@ int Mover::changeDirection()
   digitalWrite(IN4, LOW);
 
   return 0;
+}
+
+int Mover::getStraigthValue()
+{
+  return straightValue;
 }

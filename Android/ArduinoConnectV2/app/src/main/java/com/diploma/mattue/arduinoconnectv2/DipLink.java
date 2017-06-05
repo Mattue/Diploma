@@ -71,14 +71,14 @@ public class DipLink
         String buf = "";
 
         //get package start info
-        buf = line.substring(0,1);
-        if(!buf.equalsIgnoreCase("55"))
+        buf = line.substring(0,2);
+        if(!buf.equals("55"))
         {
             return "NOT_PAKAGE";
         }
 
         //get msgLen info
-        buf = line.substring(2,4);
+        buf = line.substring(2,5);
         try
         {
             msgLen = Integer.parseInt(buf);
@@ -89,7 +89,7 @@ public class DipLink
         }
 
         //get msgID info
-        buf = line.substring(5, 7);
+        buf = line.substring(5, 8);
         try
         {
             Integer.parseInt(buf);
@@ -101,11 +101,11 @@ public class DipLink
         resMessage = resMessage + buf + '_';
 
         //get msg info
-        buf = line.substring(8, msgLen);
+        buf = line.substring(8, 8 + msgLen);
         resMessage += buf;
 
         //get packageLen
-        buf = line.substring(msgLen + 1);
+        buf = line.substring(8 + msgLen);
         try
         {
             Integer.parseInt(buf);
@@ -158,7 +158,7 @@ public class DipLink
     {
         String commandID;
 
-        commandID = commamd.substring(0, 2);
+        commandID = commamd.substring(0, 3);
         try
         {
             return Integer.parseInt(commandID);

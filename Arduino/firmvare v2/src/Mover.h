@@ -22,4 +22,5 @@ class Mover
     int startWheelsByTime(String commandName);
     int stopWheels();
     int changeDirection();
+    int getStraigthValue();
 };
