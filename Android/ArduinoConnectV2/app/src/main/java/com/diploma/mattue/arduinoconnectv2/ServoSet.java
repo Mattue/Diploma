@@ -16,7 +16,8 @@ public class ServoSet extends AppCompatActivity
 
     Button btLeft, btRight;
     TextView tvServoValue;
-    String messageFromMain = "";
+    int straightValue = 90;
+    String messageFromMain = "0";
     String messageToMain = "";
 
     @Override
@@ -35,9 +36,16 @@ public class ServoSet extends AppCompatActivity
         btRight = (Button) findViewById(R.id.btRight);
         tvServoValue = (TextView) findViewById(R.id.tvServoValue);
 
-        tvServoValue.append(messageFromMain);
+        tvServoValue.setText(messageFromMain);
 
         //sendMessage("020", "GIVE_SERVO_VALUE");
+        //enableUI(false);
+    }
+
+    void enableUI(boolean messageGot)
+    {
+        btLeft.setEnabled(messageGot);
+        btRight.setEnabled(messageGot);
     }
 
     private void sendMessage(String messageID, String messageName)
@@ -47,7 +55,16 @@ public class ServoSet extends AppCompatActivity
 
     public void onLeftClick(View v)
     {
-        sendMessage("020", "GIVE_SERVO_VALUE");
+        straightValue -= 10;
+        sendMessage("014", "NEW_STRAIGHT_VALUE_" + straightValue);
+        //enableUI(false);
+    }
+
+    public void onRightClick(View v)
+    {
+        straightValue += 10;
+        sendMessage("014", "NEW_STRAIGHT_VALUE_" + straightValue);
+        //enableUI(false);
     }
 
     public int getServoNumValue(String command)
@@ -67,7 +84,7 @@ public class ServoSet extends AppCompatActivity
         }
         catch (NumberFormatException e)
         {
-            tvServoValue.append("NUMBER FROMAT EXCEPTION");
+            tvServoValue.setText("NUMBER FORMAT EXCEPTION");
         }
 
         return degree;
@@ -77,6 +94,8 @@ public class ServoSet extends AppCompatActivity
     public void onEvent(MessageEventFromMain event)
     {
         messageFromMain = event.message;
-        tvServoValue.setText("" + getServoNumValue(messageFromMain));
+        straightValue = getServoNumValue(messageFromMain);
+        tvServoValue.setText("" + straightValue);
+        //enableUI(true);
     };
 }

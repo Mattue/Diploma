@@ -121,6 +121,7 @@ int Mover::turnWheelsByDegree(int degree)
 int Mover::changeStraighValue(String commandName)
 {
     straightValue = getNumValue(commandName);
+    turnWheels(0);
     return 0;
 }
 
