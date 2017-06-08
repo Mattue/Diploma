@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -30,17 +31,66 @@ public class ServoSet extends AppCompatActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        btLeft = (Button) findViewById(R.id.btLeft);
+        btRight = (Button) findViewById(R.id.btLeft);
+        tvServoValue = (TextView) findViewById(R.id.tvServoValue);
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        tvServoValue.setText("" + straightValue);
+
         EventBus.getDefault().register(this);
 
-        btLeft = (Button) findViewById(R.id.btLeft);
-        btRight = (Button) findViewById(R.id.btRight);
-        tvServoValue = (TextView) findViewById(R.id.tvServoValue);
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e)
+        {
 
-        tvServoValue.setText(messageFromMain);
+        }
 
-        //sendMessage("020", "GIVE_SERVO_VALUE");
-        //enableUI(false);
+        sendMessage("020", "GIVE_SERVO_VALUE");
+        enableUI(false);
     }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+
+    }
+
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        outState.putInt("value", straightValue);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+        straightValue = savedInstanceState.getInt("value");
+        enableUI(true);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    /*@Override
+    public void finish()
+    {
+        super.finish();
+    }*/
 
     void enableUI(boolean messageGot)
     {
@@ -55,32 +105,40 @@ public class ServoSet extends AppCompatActivity
 
     public void onLeftClick(View v)
     {
-        straightValue -= 10;
+        straightValue += 1;
+        if (straightValue > 110)
+        {
+            Toast.makeText(this, "Угол не может быть больше 110",Toast.LENGTH_LONG).show();
+        }
         sendMessage("014", "NEW_STRAIGHT_VALUE_" + straightValue);
-        //enableUI(false);
+        enableUI(false);
     }
 
     public void onRightClick(View v)
     {
-        straightValue += 10;
+        straightValue -= 1;
+        if (straightValue < 70)
+        {
+            Toast.makeText(this, "Угол не может быть меньше 70",Toast.LENGTH_LONG).show();
+        }
         sendMessage("014", "NEW_STRAIGHT_VALUE_" + straightValue);
-        //enableUI(false);
+        enableUI(false);
     }
 
     public int getServoNumValue(String command)
     {
         int degree = 0;
 
-        int i = messageFromMain.length() - 1;
+        int i = command.length() - 1;
 
-        while (messageFromMain.charAt(i) != '_')
+        while (command.charAt(i) != '_')
         {
           i--;
         }
 
         try
         {
-            degree = Integer.parseInt(messageFromMain.substring(i+1));
+            degree = Integer.parseInt(command.substring(i+1));
         }
         catch (NumberFormatException e)
         {
@@ -96,6 +154,7 @@ public class ServoSet extends AppCompatActivity
         messageFromMain = event.message;
         straightValue = getServoNumValue(messageFromMain);
         tvServoValue.setText("" + straightValue);
-        //enableUI(true);
+        //tvServoValue.setText(messageFromMain);
+        enableUI(true);
     };
 }

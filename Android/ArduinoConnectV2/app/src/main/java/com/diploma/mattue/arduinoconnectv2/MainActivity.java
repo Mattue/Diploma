@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity
     //////////////////////////////////////////////////////////////
 
     Intent intentServoSet;
+    Intent intentManualControl;
 
     TextView tvMessagesGet;
 
@@ -185,6 +186,7 @@ public class MainActivity extends AppCompatActivity
 
         EventBus.getDefault().register(this);
 
+        intentManualControl =  new Intent(this, ManualControl.class);
         intentServoSet =  new Intent(this, ServoSet.class);
 
         tvMessagesGet = (TextView) findViewById(R.id.tvMessagesGet);
@@ -231,7 +233,6 @@ public class MainActivity extends AppCompatActivity
         messageFromSerial = event.message;
         messageFromSerial = messageFromSerial.substring(0, messageFromSerial.length() - 1);
         messageFromSerial = messageFromSerial.trim();
-        //EventBus.getDefault().post(new MessageEventFromMain(messageFromSerial));
         messageFromSerial = link.readMessage(messageFromSerial);
         EventBus.getDefault().post(new MessageEventFromMain(messageFromSerial));
         /*if(link.getCommandID(messageFromSerial) < 11)
@@ -298,8 +299,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_manual_control)
         {
-            Intent intent =  new Intent(MainActivity.this, ManualControl.class);
-            startActivity(intent);
+            startActivity(intentManualControl);
         }
         else if (id == R.id.nav_command_list)
         {

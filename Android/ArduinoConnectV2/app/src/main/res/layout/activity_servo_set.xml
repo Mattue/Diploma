@@ -25,7 +25,7 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/btRight"
+            android:id="@+id/btLeft"
             android:layout_width="141dp"
             android:layout_height="107dp"
             android:layout_gravity="center_vertical|left"

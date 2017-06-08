@@ -10,6 +10,8 @@
 #define STRAIGHT 0
 #define RIGHT 1
 
+bool direction = true;
+
 Mover::Mover()
 {
   straightValue = 90;
@@ -19,8 +21,8 @@ Mover::Mover()
   pinMode(IN4, OUTPUT);
   pinMode(ENB, OUTPUT);
 
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
+  digitalWrite(IN3, !direction);
+  digitalWrite(IN4, direction);
   analogWrite(ENB, 0);
 
   //turnServo.attach(turnPin, 70, 110);
@@ -57,11 +59,11 @@ int Mover::execCommand(int commandID, String commandName)
     case 16:
       return startWheelsByValue(INF);
     case 17:
-      return startWheelsByTime(commandName);
+      return startWheelsByValueBkwd(INF);
     case 18:
-      return stopWheels();
+      return startWheelsByTime(commandName);
     case 19:
-      return changeDirection();
+      return stopWheels();
     case 20:
       return getStraigthValue();
     default:
@@ -121,6 +123,13 @@ int Mover::turnWheelsByDegree(int degree)
 int Mover::changeStraighValue(String commandName)
 {
     straightValue = getNumValue(commandName);
+
+    if (straightValue < 70)
+    straightValue = 70;
+
+    if (straightValue > 110)
+    straightValue = 110;
+
     turnWheels(0);
     return 0;
 }
@@ -133,6 +142,25 @@ int Mover::changeWheelPower(String commandName)
 
 int Mover::startWheelsByValue(int value)
 {
+  stopWheels();
+
+  if (direction == false)
+  changeDirection();
+
+  if (value < 0)
+  {
+    analogWrite(ENB, wheelPower);
+    return 0;
+  }
+}
+
+int Mover::startWheelsByValueBkwd(int value)
+{
+  stopWheels();
+
+  if (direction == true)
+  changeDirection();
+
   if (value < 0)
   {
     analogWrite(ENB, wheelPower);
@@ -153,14 +181,15 @@ int Mover::startWheelsByTime(String commandName)
 
 int Mover::stopWheels()
 {
-  digitalWrite(ENB, 0);
+  analogWrite(ENB, 0);
   return 0;
 }
 
 int Mover::changeDirection()
 {
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
+  direction = !direction;
+  digitalWrite(IN3, !direction);
+  digitalWrite(IN4, direction);
 
   return 0;
 }

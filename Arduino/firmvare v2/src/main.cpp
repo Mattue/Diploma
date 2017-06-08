@@ -41,6 +41,13 @@ int chooser(int cmdID, String cmdName)
         link.sendMessage(link.writeMessage( "SERVO_VALUE_" + String(servoValue), "021"));
         return 0;
       }
+      case 14:
+      {
+        move.changeStraighValue(cmdName);
+        int servoValue = move.getStraigthValue();
+        link.sendMessage(link.writeMessage( "SERVO_VALUE_" + String(servoValue), "021"));
+        return 0;
+      }
       default:
         move.execCommand(cmdID, cmdName);
         return 0;
@@ -72,6 +79,7 @@ void loop()
   if (Serial.available() > 0)
   {
     a = link.getMessage();
+    delay(1000);
     //link.sendMessage(link.readMessage(a));;
     chooser(link.getCommandID(link.readMessage(a)), link.getCommandMsg(link.readMessage(a)));
   }
