@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity
 
     Intent intentServoSet;
     Intent intentManualControl;
+    Intent intencComandList;
 
     TextView tvMessagesGet;
 
@@ -188,6 +189,7 @@ public class MainActivity extends AppCompatActivity
 
         intentManualControl =  new Intent(this, ManualControl.class);
         intentServoSet =  new Intent(this, ServoSet.class);
+        intencComandList =  new Intent(MainActivity.this, CommandList.class);
 
         tvMessagesGet = (TextView) findViewById(R.id.tvMessagesGet);
         mHandler = new MyHandler(this);
@@ -303,8 +305,8 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_command_list)
         {
-            Intent intent =  new Intent(MainActivity.this, CommandList.class);
-            startActivity(intent);
+
+            startActivity(intencComandList);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

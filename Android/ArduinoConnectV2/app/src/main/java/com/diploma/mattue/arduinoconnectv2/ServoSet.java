@@ -19,7 +19,6 @@ public class ServoSet extends AppCompatActivity
     TextView tvServoValue;
     int straightValue = 90;
     String messageFromMain = "0";
-    String messageToMain = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,7 +54,7 @@ public class ServoSet extends AppCompatActivity
         }
 
         sendMessage("020", "GIVE_SERVO_VALUE");
-        enableUI(false);
+        //enableUI(false);
     }
 
     @Override

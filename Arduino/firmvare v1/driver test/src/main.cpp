@@ -34,15 +34,19 @@ void offHandler()
   analogWrite(ENB, 0);
 }
 
-void turnHandler(bool turn)
+void turnHandler(int turn)
 {
-  if(turn)
+  if(turn == -1)
   {
     myservo.write(70);
   }
-  else
+  else if (turn == 1)
   {
     myservo.write(110);
+  }
+  else if (turn == 0)
+  {
+  	myserov.write(90);
   }
 }
 
@@ -69,17 +73,17 @@ void loop()
     }
     if (a == "left")
     {
-      turnHandler(false);
+      turnHandler(-1);
       Serial.write("Left tutn!");
     }
     if (a == "right")
     {
-      turnHandler(true);
+      turnHandler(1);
       Serial.write("Rigth turn!");
     }
     if (a == "straight")
     {
-      myservo.write(90);
+      turnHandler(0);
       Serial.write("90 gedrees!");
     }
   }
