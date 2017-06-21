@@ -15,6 +15,28 @@ Mover move;
 //Servo myServo;
 
 String z;
+bool memoryAvailable = true;
+
+int chooser(int cmdID, String cmdName);
+
+int listExec ()
+{
+  while(commandList.getSize() != 0)
+  {
+    chooser(commandList.getCommandID(), commandList.getCommandName());
+    commandList.removeLast();
+
+    if (Serial.available())
+    {
+      String a = link.getMessage();
+      if (chooser(link.getCommandID(link.readMessage(a)), link.getCommandMsg(link.readMessage(a))) == 0)
+      {
+        return 1;
+      }
+    }
+  }
+  return 0;
+}
 
 int chooser(int cmdID, String cmdName)
 {
@@ -25,6 +47,19 @@ int chooser(int cmdID, String cmdName)
     {
       case 0:
         break;
+      case 7:
+      {
+        listExec();
+        //move.execCommand(commandList.getCommandID(), commandList.getCommandName());
+        break;
+      }
+      case 8:
+      {
+        move.execCommand(19, "STOP_WHEELS");
+        move.execCommand(11, "TURN_STRAIGHT");
+        return 0;
+        break;
+      }
       default:
         break;
     }
@@ -55,7 +90,49 @@ int chooser(int cmdID, String cmdName)
   }
   else if (cmdID < 61)
   {
-    //команды для списка
+    switch(cmdID)
+    {
+      case 31:
+      {
+        if (memoryAvailable == true)
+        {
+          commandList.addLast(cmdName);
+          link.sendMessage(String(freeMemory()));
+          if (freeMemory() <= 500)
+          {
+            memoryAvailable = false;
+            link.sendMessage(link.writeMessage( "NO_MEMORY", "004"));
+          }
+        }
+        else
+        {
+          link.sendMessage(link.writeMessage( "NO_MEMORY", "004"));
+        }
+        break;
+      }
+      case 32:
+      {
+        commandList.removeLast();
+        if (freeMemory() > 700)
+        {
+          memoryAvailable = true;
+        }
+        break;
+      }
+      case 33:
+      {
+        commandList.clearList();
+        memoryAvailable = true;
+        break;
+      }
+      case 34:
+      {
+        link.sendMessage(link.writeMessage("SIZE_" + String(commandList.getSize()), "034"));
+        break;
+      }
+      default:
+        break;
+    }
   }
 
   return 0;
