@@ -66,6 +66,8 @@ int Mover::execCommand(int commandID, String commandName)
       return stopWheels();
     case 20:
       return getStraigthValue();
+    case 23:
+      return wait(commandName);
     default:
       return 1;
   }
@@ -197,4 +199,13 @@ int Mover::changeDirection()
 int Mover::getStraigthValue()
 {
   return straightValue;
+}
+
+int Mover::wait(String commandName)
+{
+  int timeToMove = getNumValue(commandName)*1000;
+
+  delay(timeToMove);
+
+  return 0;
 }

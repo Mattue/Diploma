@@ -59,6 +59,7 @@ int chooser(int cmdID, String cmdName)
       {
         move.execCommand(19, "STOP_WHEELS");
         move.execCommand(11, "TURN_STRAIGHT");
+        commandList.clearList();
         return 0;
         break;
       }
@@ -99,7 +100,7 @@ int chooser(int cmdID, String cmdName)
         if (memoryAvailable == true)
         {
           commandList.addLast(cmdName);
-          link.sendMessage(String(freeMemory()));
+          //link.sendMessage(String(freeMemory()));
           if (freeMemory() <= 500)
           {
             memoryAvailable = false;
@@ -132,11 +133,14 @@ int chooser(int cmdID, String cmdName)
         link.sendMessage(link.writeMessage("SIZE_" + String(commandList.getSize()), "034"));
         break;
       }
+      case 35:
+      {
+        commandList.wait(cmdName);
+      }
       default:
         break;
     }
   }
-
   return 0;
 }
 

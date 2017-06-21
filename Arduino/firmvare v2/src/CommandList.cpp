@@ -44,6 +44,31 @@ void CommandList::createList(String command)
   size++;
 }
 
+int CommandList::getNumValue(String commandName)
+{
+  String commandValue;
+  int i = commandName.length();
+
+  while (commandName[i] != '_')
+  {
+    commandValue += commandName[i];
+    i--;
+  }
+
+  commandValue.trim();
+
+  if(commandValue.length() <= 1)
+  return commandValue.toInt();
+
+  String revValue;
+
+  for(int i = commandValue.length() - 1; i >= 0; i--)
+  {
+    revValue += commandValue[i];
+  }
+  return revValue.toInt();
+}
+
 CommandList::CommandList()
 {
     size = 0;
@@ -177,5 +202,36 @@ int CommandList::clearList()
   {
     removeLast();
   }
+  return 0;
+}
+
+int CommandList::wait(String command)
+{
+  int timeToMove = getNumValue(command);
+
+  int countOf2 = 0;
+  bool countOf1 = false;
+
+  if (timeToMove%2 == 0)
+  {
+    countOf2 = timeToMove/2;
+  }
+  else
+  {
+    timeToMove--;
+    countOf1 = true;
+    countOf2 = timeToMove / 2;
+  }
+
+  for (int i = 0; i < countOf2; i++)
+  {
+    addLast("023_WAIT_2");
+  }
+
+  if (countOf1)
+  {
+    addLast("023_WAIT_1");
+  }
+
   return 0;
 }

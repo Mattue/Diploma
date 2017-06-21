@@ -17,6 +17,7 @@ private:
   int parseCommandID(String command);
   String parseCommandName(String command);
   void createList(String command);
+  int getNumValue(String a);
 
 public:
   CommandList ();
@@ -29,4 +30,5 @@ public:
   String getCommandName();
   int getSize();
   int clearList();
+  int wait(String command);
 };
