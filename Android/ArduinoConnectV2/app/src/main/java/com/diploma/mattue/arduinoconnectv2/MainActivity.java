@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEventFromSerial(MessageEventFromSerial event)
     {
-        //code to do when get message from intend
+        //code to do when get message from serial
         messageFromSerial = event.message;
         messageFromSerial = messageFromSerial.substring(0, messageFromSerial.length() - 1);
         messageFromSerial = messageFromSerial.trim();
@@ -296,7 +296,6 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_command_list)
         {
-
             startActivity(intencComandList);
         }
 

@@ -28,6 +28,8 @@ public class ManualControl extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //EventBus.getDefault().register(this);
+
         btForward = (Button) findViewById(R.id.btFrvd);
         btBackward = (Button) findViewById(R.id.btBackward);
         btStop = (Button)findViewById(R.id.btStop);
@@ -39,19 +41,20 @@ public class ManualControl extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart()
+    protected void onPause()
     {
-        super.onStart();
-
-        EventBus.getDefault().register(this);
+        super.onPause();
+        sendMessage("019", "STOP_WHEELS");
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
-    protected void onPause()
+    public void onResume()
     {
-        sendMessage("018", "STOP_WHEELS");
-        super.onPause();
+        super.onResume();
+        EventBus.getDefault().register(this);
     }
+
 
     public void onForwardClick(View v)
     {
@@ -119,6 +122,13 @@ public class ManualControl extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        this.finish();
+        super.onDestroy();
+    }
+
     void enableUI(boolean messageGot)
     {
         btForward.setEnabled(messageGot);
@@ -138,6 +148,6 @@ public class ManualControl extends AppCompatActivity {
     public void onEvent(MessageEventFromMain event)
     {
 
-    };
+    }
 
 }

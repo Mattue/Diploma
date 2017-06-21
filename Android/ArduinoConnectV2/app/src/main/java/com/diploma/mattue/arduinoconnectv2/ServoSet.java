@@ -42,7 +42,7 @@ public class ServoSet extends AppCompatActivity
 
         tvServoValue.setText("" + straightValue);
 
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
 
         try
         {
@@ -58,10 +58,17 @@ public class ServoSet extends AppCompatActivity
     }
 
     @Override
-    protected void onPause()
+    public void onResume()
+    {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause()
     {
         super.onPause();
-
+        EventBus.getDefault().unregister(this);
     }
 
     protected void onSaveInstanceState(Bundle outState)
@@ -81,15 +88,9 @@ public class ServoSet extends AppCompatActivity
     @Override
     protected void onDestroy()
     {
-        EventBus.getDefault().unregister(this);
+        this.finish();
         super.onDestroy();
     }
-
-    /*@Override
-    public void finish()
-    {
-        super.finish();
-    }*/
 
     void enableUI(boolean messageGot)
     {
@@ -155,5 +156,5 @@ public class ServoSet extends AppCompatActivity
         tvServoValue.setText("" + straightValue);
         //tvServoValue.setText(messageFromMain);
         enableUI(true);
-    };
+    }
 }

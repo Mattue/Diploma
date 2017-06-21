@@ -39,7 +39,7 @@ public class CommandList extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
 
         comands = new ArrayList<String>();
 
@@ -79,7 +79,20 @@ public class CommandList extends AppCompatActivity {
         });
     }
 
-    //int commandCount = 0;
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEventFromMain event)
@@ -101,7 +114,14 @@ public class CommandList extends AppCompatActivity {
             printComands();
             enableUI(true);
         }
-    };
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        this.finish();
+        super.onDestroy();
+    }
 
     public void onDeleteClick(View v)
     {
