@@ -26,6 +26,7 @@ int listExec ()
     if (chooser(commandList.getCommandID(), commandList.getCommandName()) == 0)
     {
       commandList.removeFirst();
+      link.sendMessage(link.writeMessage("STATUS_0", "002"));
     }
 
     if (Serial.available() > 0)
@@ -37,6 +38,11 @@ int listExec ()
       }
     }
   }
+
+  delay(1000);
+
+  link.sendMessage(link.writeMessage("STOP_EXEC_COMAND_LIST", "008"));
+
   return 0;
 }
 
@@ -99,8 +105,14 @@ int chooser(int cmdID, String cmdName)
       {
         if (memoryAvailable == true)
         {
-          commandList.addLast(cmdName);
-          //link.sendMessage(String(freeMemory()));
+          if (link.getCommandID(cmdName) == 23)
+          {
+            commandList.wait(cmdName);
+          }
+          else
+          {
+            commandList.addLast(cmdName);
+          }
           if (freeMemory() <= 500)
           {
             memoryAvailable = false;

@@ -111,6 +111,7 @@ int CommandList::addFirst(String command)
 
 int CommandList::addLast(String command)
 {
+
     if (size == 0)
     {
       createList(command);
@@ -152,7 +153,7 @@ int CommandList::removeFirst()
   return 0;
 }
 
-int CommandList::removeLast()
+/*int CommandList::removeLast()
 {
   if (size != 0)
   {
@@ -170,6 +171,48 @@ int CommandList::removeLast()
     }
     return 0;
   }
+  return 0;
+}*/
+
+int CommandList::removeLast()
+{
+  if (size != 0)
+  {
+    if (tail->commandID == 23)
+    {
+      while (tail->commandID == 23)
+      {
+        if (size == 1)
+        {
+          head = 0;
+          tail = 0;
+          size--;
+        }
+        else
+        {
+          tail = tail->prev;
+          delete tail->next;
+          size--;
+        }
+      }
+    }
+    else
+    {
+      if (size == 1)
+      {
+        head = 0;
+        tail = 0;
+        size--;
+      }
+      else
+      {
+        tail = tail->prev;
+        delete tail->next;
+        size--;
+      }
+    }
+  }
+
   return 0;
 }
 

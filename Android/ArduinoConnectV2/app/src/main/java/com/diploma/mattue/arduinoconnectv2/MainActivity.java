@@ -231,20 +231,11 @@ public class MainActivity extends AppCompatActivity
     public void onMessageEventFromSerial(MessageEventFromSerial event)
     {
         //code to do when get message from intend
-
         messageFromSerial = event.message;
         messageFromSerial = messageFromSerial.substring(0, messageFromSerial.length() - 1);
         messageFromSerial = messageFromSerial.trim();
         messageFromSerial = link.readMessage(messageFromSerial);
         EventBus.getDefault().post(new MessageEventFromMain(messageFromSerial));
-        /*if(link.getCommandID(messageFromSerial) < 11)
-        {
-            //connection commands
-        }
-        else
-        {
-            EventBus.getDefault().post(new MessageEventFromMain(messageFromSerial));
-        }*/
     }
 
     private void sendData(String message)

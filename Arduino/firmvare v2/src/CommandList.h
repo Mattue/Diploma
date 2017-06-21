@@ -26,6 +26,7 @@ public:
   int addLast(String command);
   int removeFirst();
   int removeLast();
+  int removeLastWait();
   int getCommandID();
   String getCommandName();
   int getSize();
