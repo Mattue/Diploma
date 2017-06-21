@@ -112,8 +112,8 @@ int CommandList::removeFirst()
   {
     if (size == 1)
     {
-      delete head;
-      delete tail;
+      head = 0;
+      tail = 0;
       size--;
     }
     else

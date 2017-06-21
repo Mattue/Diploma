@@ -23,10 +23,12 @@ int listExec ()
 {
   while(commandList.getSize() != 0)
   {
-    chooser(commandList.getCommandID(), commandList.getCommandName());
-    commandList.removeLast();
+    if (chooser(commandList.getCommandID(), commandList.getCommandName()) == 0)
+    {
+      commandList.removeFirst();
+    }
 
-    if (Serial.available())
+    if (Serial.available() > 0)
     {
       String a = link.getMessage();
       if (chooser(link.getCommandID(link.readMessage(a)), link.getCommandMsg(link.readMessage(a))) == 0)
