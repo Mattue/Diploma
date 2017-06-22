@@ -32,7 +32,7 @@ public class ServoSet extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btLeft = (Button) findViewById(R.id.btLeft);
-        btRight = (Button) findViewById(R.id.btLeft);
+        btRight = (Button) findViewById(R.id.btRight);
         tvServoValue = (TextView) findViewById(R.id.tvServoValue);
     }
 
@@ -55,7 +55,6 @@ public class ServoSet extends AppCompatActivity
         }
 
         sendMessage("020", "GIVE_SERVO_VALUE");
-        //enableUI(false);
     }
 
     @Override

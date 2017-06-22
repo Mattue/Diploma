@@ -4,7 +4,7 @@
 #define IN4 4
 #define ENB 3
 #define SERVOPIN 9
-#define TURN 20
+#define TURN -20
 #define INF -1
 #define LEFT -1
 #define STRAIGHT 0
@@ -15,7 +15,7 @@ bool direction = true;
 Mover::Mover()
 {
   straightValue = 90;
-  wheelPower = 50;
+  wheelPower = 130;
 
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);

@@ -25,7 +25,7 @@ public class CommandList extends AppCompatActivity {
     TextView tvComands, tvAnswers;
     Spinner spComands;
 
-    String[] data = {"Влево", "Вправо", "Прямо", "Запустить прямо", "Запустить обратно", "Остановить", "Работать 5 секунд"};
+    String[] data = {"Влево", "Вправо", "Прямо", "Запустить прямо", "Запустить обратно", "Остановить", "Работать 10 секунд"};
     ArrayList<String> comands;
 
     int currentCommand = 0;
