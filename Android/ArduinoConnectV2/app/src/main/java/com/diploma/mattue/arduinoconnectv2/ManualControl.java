@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -43,16 +44,28 @@ public class ManualControl extends AppCompatActivity {
     @Override
     protected void onPause()
     {
-        super.onPause();
         sendMessage("019", "STOP_WHEELS");
-        EventBus.getDefault().unregister(this);
+        super.onPause();
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
 
@@ -122,13 +135,6 @@ public class ManualControl extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy()
-    {
-        this.finish();
-        super.onDestroy();
-    }
-
     void enableUI(boolean messageGot)
     {
         btForward.setEnabled(messageGot);
@@ -141,6 +147,7 @@ public class ManualControl extends AppCompatActivity {
 
     private void sendMessage(String messageID, String messageName)
     {
+        Log.d("Sub debug", "message posted");
         EventBus.getDefault().post(new MessageEventFromIntent(messageID, messageName));
     }
 
@@ -149,5 +156,4 @@ public class ManualControl extends AppCompatActivity {
     {
 
     }
-
 }

@@ -123,19 +123,21 @@ public class MainActivity extends AppCompatActivity
 
         public MyHandler(MainActivity activity)
         {
-            EventBus.getDefault().register(this);
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg)
         {
+            EventBus.getDefault().register(this);
             switch (msg.what)
             {
                 case UsbService.MESSAGE_FROM_SERIAL_PORT:
                     incomingMessage = (String) msg.obj;
                     mActivity.get().tvMessagesGet.append(incomingMessage);
                     EventBus.getDefault().post(new MessageEventFromSerial(incomingMessage));
+                    EventBus.getDefault().unregister(this);
+                    System.gc();
                     break;
                 case UsbService.CTS_CHANGE:
                     Toast.makeText(mActivity.get(), "CTS_CHANGE",Toast.LENGTH_LONG).show();
@@ -144,6 +146,11 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(mActivity.get(), "DSR_CHANGE",Toast.LENGTH_LONG).show();
                     break;
             }
+        }
+
+        public void close()
+        {
+            EventBus.getDefault().unregister(this);
         }
 
         public String getIncomingMessage()
@@ -163,6 +170,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         setFilters();  // Start listening notifications from UsbService
         startService(UsbService.class, usbConnection, null); // Start UsbService(if it was not started before) and Bind it
+        //EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -171,6 +179,15 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
         unregisterReceiver(mUsbReceiver);
         unbindService(usbConnection);
+        //EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        EventBus.getDefault().unregister(this);
+        mHandler.close();
+        super.onDestroy();
     }
     //////////////////////////////////////////////////////////////
 
@@ -221,7 +238,7 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEventFromIntent(MessageEventFromIntent event)
     {
-        //code to do when get message from intend
+        //code to do when get message from intent
         sendData(link.writeMessage(event.messageID, event.messageName));
     }
 

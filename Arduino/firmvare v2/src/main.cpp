@@ -175,7 +175,7 @@ void loop()
   {
     a = link.getMessage();
     delay(1000);
-    Serial.println(a);
+    //Serial.println(a);
     //link.sendMessage(link.readMessage(a));;
     chooser(link.getCommandID(link.readMessage(a)), link.getCommandMsg(link.readMessage(a)));
   }

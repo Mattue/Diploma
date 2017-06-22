@@ -3,6 +3,7 @@ package com.diploma.mattue.arduinoconnectv2;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -305,6 +306,7 @@ public class CommandList extends AppCompatActivity {
 
     private void sendMessage(String messageID, String messageName)
     {
+        Log.d("Sub debug", "message posted");
         EventBus.getDefault().post(new MessageEventFromIntent(messageID, messageName));
     }
 
